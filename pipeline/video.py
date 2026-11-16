@@ -52,10 +52,16 @@ def font(size, bold=False):
 def water(bounds4326):
     w, s_, e, n = bounds4326
     q = f'[out:json][timeout:120];(way["natural"="water"]({s_},{w},{n},{e});relation["natural"="water"]({s_},{w},{n},{e});way["waterway"="riverbank"]({s_},{w},{n},{e}););out geom;'
-    try:
-        d = requests.post("https://overpass-api.de/api/interpreter", data={"data": q}, timeout=180).json()
-    except Exception as e:                                               # noqa: BLE001
-        print("water not available:", e); return []
+    d = None
+    for url in ["https://overpass-api.de/api/interpreter", "https://overpass.kumi.systems/api/interpreter",
+                "https://overpass.private.coffee/api/interpreter", "https://overpass-api.de/api/interpreter"]:
+        try:
+            d = requests.post(url, data={"data": q}, timeout=180, headers={"User-Agent": "30DMC26-D17 (github.com/barisparlatangiller)"}).json()
+            break
+        except Exception as e:                                           # noqa: BLE001
+            print("water: retry after", url, e); time.sleep(10)
+    if d is None:
+        print("water not available"); return []
     polys = []
     for el in d["elements"]:
         rings = [el["geometry"]] if el["type"] == "way" and el.get("geometry") else \

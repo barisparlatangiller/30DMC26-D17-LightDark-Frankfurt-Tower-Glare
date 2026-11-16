@@ -91,7 +91,7 @@ jobs:
         run: |
           du -sh docs/data/* | tee logs/06_files.log
           du -sh docs/data/shadows/* docs/data/glare/* | tee -a logs/06_files.log
-          python -c "import json;s=json.load(open('docs/data/stats.json'));print(json.dumps({k:s.get(k) for k in ['facades','glarehours','glass_rank']},ensure_ascii=False)[:6000]);print({m:{k:d[k] for k in ['km2_30min','km2_1h','km2_2h','max_h']} for m,d in s['glare']['days'].items()})" | tee logs/07_glare_summary.log
+          python -c "import json;s=json.load(open('docs/data/stats.json'));print(json.dumps({k:s.get(k) for k in ['glarehours','glass_rank']},ensure_ascii=False)[:5000]);print({m:{k:d[k] for k in ['km2_30min','km2_1h','km2_2h','max_h']} for m,d in s['glare']['days'].items()})" 2>&1 | tee logs/07_glare_summary.log
 
       - name: Report (annotations readable via the API)
         if: always()
@@ -109,19 +109,17 @@ jobs:
       - name: Publish result files to the 'data' branch (for QGIS users)
         continue-on-error: true
         run: |
+          set -x
           mkdir -p /tmp/snap && cd /tmp/snap
-          cp $GITHUB_WORKSPACE/docs/data/stats.json $GITHUB_WORKSPACE/docs/data/towers.geojson $GITHUB_WORKSPACE/docs/data/glass.geojson .
-          cp $GITHUB_WORKSPACE/build/facades.parquet . || true
-          mkdir -p glarehours && cp $GITHUB_WORKSPACE/docs/data/glarehours/* glarehours/ || true
-          cp -r $GITHUB_WORKSPACE/logs . || true
-          cp $GITHUB_WORKSPACE/build/casters.parquet . || true
-          mkdir -p sunloss && cp $GITHUB_WORKSPACE/docs/data/sunloss/* sunloss/
+          cp -r $GITHUB_WORKSPACE/docs/data site_data
+          cp $GITHUB_WORKSPACE/build/facades.parquet $GITHUB_WORKSPACE/build/casters.parquet . || true
           mkdir -p video && cp $GITHUB_WORKSPACE/build/video/*.mp4 $GITHUB_WORKSPACE/build/video/*.png video/ || true
-          (cd $GITHUB_WORKSPACE/docs/data && zip -qr /tmp/snap/shadows_21st_each_month.zip shadows && zip -qr /tmp/snap/reflections_21st_each_month.zip glare)
-          printf '# Result files\n\nBuilt by the GitHub Action from commit %s on %s.\n' "$GITHUB_SHA" "$(date -u +%F)" > README.md
+          cp -r $GITHUB_WORKSPACE/logs . || true
+          find . -type f -size +95M -print -delete
+          printf '# Result files\n\nBuilt by the GitHub Action from commit %s on %s.\nsite_data/ = everything the map loads (GeoJSON, PMTiles, PNG rasters, stats.json). video/ = LinkedIn time-lapse and stills.\n' "$GITHUB_SHA" "$(date -u +%F)" > README.md
           git init -q -b data && git add -A
           git -c user.name="github-actions" -c user.email="41898282+github-actions[bot]@users.noreply.github.com" commit -qm "Results of $GITHUB_SHA"
-          git push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" data:data
+          git -c http.postBuffer=524288000 push -f "https://x-access-token:${{ github.token }}@github.com/${{ github.repository }}.git" data:data 2>&1 | tail -5
 
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
