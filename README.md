@@ -8,6 +8,13 @@ Frankfurt's towers cast shade (the **dark** side, from [Day 5](https://github.co
 Their glass façades also throw sunlight back onto streets and roofs (the **light** side, new here).
 The map shows both, every hour on the 21st of each month, on the real rooftops of Hessen's LoD2 3D building model.
 
+## Findings (21 June)
+
+- **204 ha** of streets and roofs get an hour or more of sunlight reflected by glass towers; **409 ha** get at least 30 minutes.
+- At 18:00 the glass façades light **24 ha** of ground and **14 ha** of roofs on **1,461 buildings**, while the towers shade 154 ha of ground.
+- Brightest mirrors (lit area × time × façade weight): the **European Central Bank**, Trianon and Omniturm. In December the ECB, the American Express tower and the Radisson Blu.
+- 67 of the 81 classed towers are in the LoD2 model.
+
 ## Method
 
 1. **Shadows (Day 5, unchanged).** Every LoD2 building part ≥ 30 m casts a shadow onto every roof (LoD2 roof planes)
