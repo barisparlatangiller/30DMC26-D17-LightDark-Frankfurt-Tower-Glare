@@ -391,7 +391,7 @@ code { font: 11.5px "DM Mono", monospace; background: var(--chip); padding: 0 3p
 
 /* Day 17 · light & dark */
 :root { --glare: #e0700f; }
-:root[data-theme="dark"] { --glare: #f59a33; --shade: rgba(120,130,190,.45); }
+:root[data-theme="dark"] { --glare: #f59a33; --shade: rgba(82,108,220,.55); }
 .label.sub { margin-top: 12px; }
 .chk { display: flex; gap: 8px; align-items: flex-start; font-size: 12px; color: var(--ink-2); margin-top: 6px; cursor: pointer; }
 .chk input { margin-top: 2px; accent-color: var(--accent); }

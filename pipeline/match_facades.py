@@ -92,12 +92,12 @@ def main():
     (WEB / "glass.geojson").write_text(json.dumps({"type": "FeatureCollection", "features": feats}, ensure_ascii=False, separators=(",", ":")))
     st = {"inventory": int(len(inv)), "matched": int(len(ok)), "parts": int(len(f)),
           "by_class": {k: int(v) for k, v in ok.cls.value_counts().items()},
-          "unmatched": m[m.oid.isna()].name.tolist(), "table": m.drop(columns="oid").to_dict("records"),
+          "unmatched": m[m.oid.isna()].name.tolist(), "table": m.drop(columns="oid").astype(object).where(m.drop(columns="oid").notna(), None).to_dict("records"),
           "towers_without_inventory": int(c.oid.nunique() - len(pair))}
     p = WEB / "stats.json"
     s = json.loads(p.read_text()) if p.exists() else {}
     s["facades"] = st
-    p.write_text(json.dumps(s, ensure_ascii=False, indent=1))
+    p.write_text(json.dumps(s, ensure_ascii=False, indent=1, allow_nan=False))
     print(json.dumps(st, ensure_ascii=False))
 
 

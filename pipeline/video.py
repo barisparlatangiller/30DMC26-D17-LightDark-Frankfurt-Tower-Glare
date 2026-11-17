@@ -26,8 +26,8 @@ import reflections as R
 
 W, H = 1080, 1350
 MAP_Y, MAP_H = 214, 1000
-CENTER = (8.6705, 50.1112)                   # Bankenviertel / Westend / Messe (as Day 5)
-SPAN = 3600.0
+CENTER = (8.6770, 50.1105)                   # Day 5 frame, widened east to include the ECB (the brightest mirror)
+SPAN = 4200.0
 FPS = 24
 BG, BLD, TOWER, WATER, INK, INK2 = (246, 243, 238), (214, 209, 200), (120, 116, 110), (222, 229, 233), (43, 41, 37), (111, 106, 97)
 GLASS = {4: (28, 92, 150), 3: (66, 132, 184), 2: (128, 160, 182), 1: (160, 150, 138), 9: (150, 146, 140)}
@@ -74,11 +74,11 @@ def water(bounds4326):
 
 def oranges(hours):
     """hours of reflected sun → RGB + alpha (0.1 h faint … 2 h deep)"""
-    t = np.clip(hours / 2.0, 0, 1) * (len(ORANGE) - 1)
+    t = np.clip(hours / 3.0, 0, 1) * (len(ORANGE) - 1)
     i = np.clip(np.floor(t).astype(int), 0, len(ORANGE) - 2)
     f = (t - i)[..., None]
     rgb = ORANGE[i] * (1 - f) + ORANGE[i + 1] * f
-    a = np.clip(hours / 0.4, 0, 1) * 0.8
+    a = np.clip(hours / 0.5, 0, 1) * 0.62
     return rgb, a
 
 
@@ -186,7 +186,7 @@ def main():
         ly = MAP_Y + MAP_H + 24
         for k in range(5):
             d.rectangle([48 + k * 62, ly, 48 + (k + 1) * 62 - 2, ly + 16], fill=tuple(int(v) for v in ORANGE[k]))
-        for k, t in enumerate(["5 min", "30", "1 h", "1.5", "2 h+"]):
+        for k, t in enumerate(["5 min", "45", "1.5 h", "2.25", "3 h+"]):
             d.text((48 + k * 62, ly + 22), t, font=F["foot"], fill=INK2)
         d.text((372, ly - 3), "hours of reflected sun, adding up", font=F["foot"], fill=INK2)
         d.rectangle([372, ly + 28, 390, ly + 44], fill=tuple(SHADE)); d.text((398, ly + 24), "shadow now", font=F["foot"], fill=INK2)
@@ -226,7 +226,7 @@ def main():
         if ts.strftime("%H%M") in stills:
             im.save(OUT / f"still_{ts.strftime('%H%M')}.png")
         v = float((gl.astype("float32") >= 0.3).sum()) if gl is not None else 0
-        if 16 <= ts.hour <= 19 and v > best_v:
+        if ts.strftime("%H:%M") >= "18:15" and ts.strftime("%H:%M") <= "18:45" and v > best_v:
             best, best_v = (acc.copy(), shade[i], gl, ts.strftime("%H:%M"), alt), v
     for k in range(int(FPS * 1.0)):                                     # hold the full day without the moment
         save(frame(acc, None, None, "whole day", steps[-1][2])); n += 1

@@ -7,8 +7,8 @@
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const dark = document.documentElement.dataset.theme === "dark";
-  const C = { tower: dark ? "#6e6a64" : "#8a857d", bld: dark ? "#3b3936" : "#e7e2da", shade: dark ? "rgba(2,4,18,0.62)" : "rgba(28,32,70,0.42)",
-              roofShade: dark ? "#05081c" : "#26306e", roof: "#3b4cca" };
+  const C = { tower: dark ? "#6e6a64" : "#8a857d", bld: dark ? "#3b3936" : "#e7e2da", shade: dark ? "rgba(52,78,190,0.5)" : "rgba(28,32,70,0.42)",
+              roofShade: dark ? "#2a3c8f" : "#26306e", roof: "#3b4cca" };
   const GLASS = { 4: "#1c5c96", 3: "#4284b8", 2: "#8aa7bc", 1: "#a39888", 9: "#9a958d" };
   const GLASSN = { 4: "A1 · full glass, mirror-like", 3: "A2 · full glass, lighter", 2: "B · mixed (bands, frames)", 1: "C · mostly stone / metal", 9: "U · not verified" };
   const CL2L = { A1: 4, A2: 3, B: 2, C: 1, U: 9 };
@@ -197,7 +197,7 @@
       const ix = IDX[st.m]; if (!ix) return;
       const d = S.shadows.days[mm(st.m)];
       const r = e.currentTarget.getBoundingClientRect(), x = (e.clientX - r.left) / r.width * 330;
-      const k = Math.max(0, Math.min(d.times.length - 1, Math.round((x - 34) / (286 / Math.max(1, d.times.length - 1)))));
+      const k = Math.max(0, Math.min(d.times.length - 1, Math.round((x - 42) / (258 / Math.max(1, d.times.length - 1)))));
       const tt = d.times[k].slice(0, 2);
       let best = 0; ix.hours.forEach((h, i) => { if (Math.abs(+h.f - +tt) < Math.abs(+ix.hours[best].f - +tt)) best = i; });
       st.t = best; stop();
@@ -273,7 +273,7 @@
   function dayChart() {
     const ix = IDX[st.m]; const d = (S.shadows && S.shadows.days || {})[mm(st.m)]; const g = (S.glare && S.glare.days || {})[mm(st.m)];
     if (!ix || !d) return;
-    const n = d.times.length, x0 = 34, x1 = 320, y0 = 10, y1 = 112;
+    const n = d.times.length, x0 = 42, x1 = 300, y0 = 12, y1 = 112;
     const tot = d.ground_ha.map((v, i) => v + (d.roof_ha[i] || 0));
     const all = Object.values(S.shadows.days).flatMap((x) => x.ground_ha.map((v, i) => v + (x.roof_ha[i] || 0))).sort((a, b) => a - b);
     const mx = (all[Math.floor(all.length * 0.9)] || 1) * 1.1, X = (i) => x0 + (n > 1 ? i * (x1 - x0) / (n - 1) : 0), Y = (v) => Math.max(y0, y1 - (y1 - y0) * v / mx);
@@ -284,13 +284,13 @@
       const gm = Math.max(...Object.values(S.glare.days).flatMap((x) => x.ground_ha.map((v, i) => v + (x.roof_ha[i] || 0)))) * 1.1 || 1;
       const Xg = (i) => x0 + (gt.length > 1 ? i * (x1 - x0) / (gt.length - 1) : 0), Yg = (v) => y1 - (y1 - y0) * v / gm;
       s += `<path d="${gt.map((v, i) => `${i ? "L" : "M"}${Xg(i)},${Yg(v)}`).join(" ")}" fill="none" stroke="var(--glare)" stroke-width="2.4"/>`;
-      s += `<text x="${x1}" y="${y0 + 3}" text-anchor="end" fill="var(--glare)">${fmt(gm)} ha</text>`;
+      s += `<text x="${x1 + 26}" y="${y0 + 3}" text-anchor="end" fill="var(--glare)">${fmt(gm)} ha</text>`;
     }
     s += `<text x="${x0 - 4}" y="${y0 + 3}" text-anchor="end">${fmt(mx)} ha</text><text x="${x0 - 4}" y="${y1}" text-anchor="end">0</text>`;
     [0, Math.floor((n - 1) / 2), n - 1].forEach((k) => { s += `<text x="${X(k)}" y="${y1 + 13}" text-anchor="middle">${d.times[k]}</text>`; });
     const H = ix.hours[st.t], k = H ? d.times.indexOf(H.t) : -1;
     if (!["loss", "glare"].includes(st.mode) && k >= 0) s += `<line x1="${X(k)}" x2="${X(k)}" y1="${y0 - 4}" y2="${y1}" stroke="var(--ink)" stroke-width="1.4"/><circle cx="${X(k)}" cy="${y0 - 4}" r="3" fill="#f5b014"/>`;
-    s += `<text x="${x0}" y="136">30-min steps · shade: left scale · reflections: right scale</text>`;
+    s += `<text x="${x0}" y="136">shade: left scale · reflected sun: right scale</text>`;
     $("#dayChart").innerHTML = s;
   }
 
@@ -332,7 +332,7 @@
       return;
     }
     if (st.mode === "glare") {
-      const b = GI ? GI.bins : [0.25, 0.5, 1, 2, 3];
+      const b = GI ? GI.bins : [0.5, 1, 1.5, 2, 3];
       L.innerHTML = `<div class="lg-title">Hours of reflected sun · ${M}</div><div class="lg-sub">sunlight thrown back by A1, A2 and B glass façades, whole day</div>
         <div class="vsteps">${GH.map((c) => `<i style="background:${c}"></i>`).join("")}</div>
         <div class="vticks">${b.map((x, k) => `<span>${x < 1 ? x * 60 + " min" : x + (k === b.length - 1 ? "+ h" : " h")}</span>`).join("")}</div>`;

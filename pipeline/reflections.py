@@ -136,7 +136,8 @@ def glare_step(az, alt, res=2.0, stats=False):
         if stats:
             src = Wl["inv"][ii][rr]
             for t in np.unique(src[kn]):
-                per[int(t)] = per.get(int(t), 0.0) + float((src[kn] == t).sum()) * res * res * 0.5
+                mt = src[kn] == t                                        # lit area × façade weight
+                per[int(t)] = per.get(int(t), 0.0) + float(w[kn][mt].sum()) * res * res * 0.5
     # close the gaps between neighbouring rays
     known = np.where(known > 0, known, grey_dilation(known, size=3))
     unk = unk | (grey_dilation(unk.astype("uint8"), size=3) > 0)
