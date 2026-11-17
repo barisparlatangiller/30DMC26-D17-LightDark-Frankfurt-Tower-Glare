@@ -31,10 +31,13 @@ SPAN = 4200.0
 FPS = 24
 BG, BLD, TOWER, WATER, INK, INK2 = (246, 243, 238), (214, 209, 200), (120, 116, 110), (222, 229, 233), (43, 41, 37), (111, 106, 97)
 GLASS = {4: (28, 92, 150), 3: (66, 132, 184), 2: (128, 160, 182), 1: (160, 150, 138), 9: (150, 146, 140)}
-SHADE = np.array([30, 38, 92])
-ORANGE = np.array([[255, 226, 170], [253, 186, 104], [246, 138, 44], [226, 92, 14], [176, 52, 6]], dtype=float)
-HOT = np.array([255, 120, 10], dtype=float)
-ACCENT = (214, 92, 12)
+# one muted, earthy family: dusty blue (shade) · soft amber (reflected sun) · dusty plum (both), light → deep
+DAY = {1: (np.array([150, 166, 196.]), np.array([70, 90, 136.])),     # only shade
+       2: (np.array([236, 196, 150.]), np.array([196, 120, 62.])),    # only reflected sun
+       3: (np.array([186, 160, 196.]), np.array([116, 86, 134.]))}    # both over the day
+SHADE = np.array([52, 64, 108.])            # shadow now
+HOT = np.array([232, 134, 56.])             # reflection now
+ACCENT = (184, 98, 40)
 B = Path("build"); OUT = B / "video"
 
 
@@ -72,14 +75,20 @@ def water(bounds4326):
     return polys
 
 
-def oranges(hours):
-    """hours of reflected sun → RGB + alpha (0.1 h faint … 2 h deep)"""
-    t = np.clip(hours / 3.0, 0, 1) * (len(ORANGE) - 1)
-    i = np.clip(np.floor(t).astype(int), 0, len(ORANGE) - 2)
-    f = (t - i)[..., None]
-    rgb = ORANGE[i] * (1 - f) + ORANGE[i + 1] * f
-    a = np.clip(hours / 0.5, 0, 1) * 0.62
-    return rgb, a
+MIN_H = 0.25                                # 15 min of shade / reflected sun before a place counts
+
+
+def daymix(sh_h, gl_h):
+    """hours in shade + hours of reflected sun so far → category colour (shade / sun / both) and alpha"""
+    s, g = sh_h >= MIN_H, gl_h >= MIN_H
+    cat = np.where(s & g, 3, np.where(g, 2, np.where(s, 1, 0)))
+    tot = np.clip((sh_h * s + gl_h * g) / 4.0, 0, 1)[..., None]
+    rgb = np.zeros(sh_h.shape + (3,))
+    for k, (lo, hi) in DAY.items():
+        m = cat == k
+        rgb[m] = lo * (1 - tot[m]) + hi * tot[m]
+    a = np.where(cat > 0, 0.30 + 0.32 * tot[..., 0], 0.0)
+    return rgb, a, cat
 
 
 G_FR = {}
@@ -150,22 +159,21 @@ def main():
     print(f"{len(steps)} steps in {time.time() - t0:.0f} s", flush=True)
 
     st = json.loads(Path("docs/data/stats.json").read_text())
-    gd = st.get("glare", {}).get("days", {}).get("06", {})
-    k1h, k30 = gd.get("km2_1h"), gd.get("km2_30min")
+    cb = st.get("combo", {}).get("06", {})
     fac = st.get("facades", {})
     F = {k: font(*v) for k, v in {"title": (40, True), "eyebrow": (23, True), "clock": (64, True), "small": (25, False),
                                   "label": (22, True), "big": (60, True), "foot": (21, False), "mid": (30, True)}.items()}
 
     def frame(acc, sh, gl, clock, alt, outro=0.0, cap=None):
         img = base.copy()
-        rgb, al = oranges(acc)
+        rgb, al, _ = daymix(*acc)
         img = img * (1 - al[..., None]) + rgb * al[..., None]
         if sh is not None:
-            img[sh] = img[sh] * 0.6 + SHADE * 0.4
+            img[sh] = img[sh] * 0.62 + SHADE * 0.38
         if gl is not None:
             gm = gl.astype("float32")
-            glow = np.asarray(Image.fromarray((np.clip(gm, 0, 1) * 255).astype("uint8")).filter(ImageFilter.GaussianBlur(3))).astype("float32") / 255
-            a_ = np.clip(np.maximum(gm * 1.1, glow * 0.6), 0, 0.95)[..., None]
+            glow = np.asarray(Image.fromarray((np.clip(gm, 0, 1) * 255).astype("uint8")).filter(ImageFilter.GaussianBlur(2.5))).astype("float32") / 255
+            a_ = np.clip(np.maximum(gm * 0.95, glow * 0.45), 0, 0.85)[..., None]
             img = img * (1 - a_) + HOT * a_
         img[tow] = TOWER
         for lv, col in GLASS.items():
@@ -176,7 +184,7 @@ def main():
         d.text((48, 34), "#30DAYMAPCHALLENGE · DAY 17 · LIGHT & DARK · FRANKFURT", font=F["eyebrow"], fill=ACCENT)
         d.text((48, 72), "Towers cast shade.", font=F["title"], fill=INK)
         d.text((48, 120), "Glass towers also throw the sun back.", font=F["title"], fill=ACCENT)
-        d.text((48, 172), "21 June · shadows (blue) and sunlight reflected by glass façades (orange)", font=F["small"], fill=INK2)
+        d.text((48, 172), "21 June · shadows (blue) and sunlight reflected by glass façades (amber)", font=F["small"], fill=INK2)
         if clock and outro == 0:
             d.text((W - 48, 30), clock, font=F["clock"], fill=INK, anchor="ra")
             d.text((W - 48, 104), f"sun {alt:.0f}° high", font=F["small"], fill=INK2, anchor="ra")
@@ -184,34 +192,41 @@ def main():
             d.rounded_rectangle([48, MAP_Y + 24, 48 + d.textlength(cap, font=F["label"]) + 32, MAP_Y + 68], 12, fill=(253, 251, 247))
             d.text((64, MAP_Y + 34), cap, font=F["label"], fill=INK)
         ly = MAP_Y + MAP_H + 24
-        for k in range(5):
-            d.rectangle([48 + k * 62, ly, 48 + (k + 1) * 62 - 2, ly + 16], fill=tuple(int(v) for v in ORANGE[k]))
-        for k, t in enumerate(["5 min", "45", "1.5 h", "2.25", "3 h+"]):
-            d.text((48 + k * 62, ly + 22), t, font=F["foot"], fill=INK2)
-        d.text((372, ly - 3), "hours of reflected sun, adding up", font=F["foot"], fill=INK2)
-        d.rectangle([372, ly + 28, 390, ly + 44], fill=tuple(SHADE)); d.text((398, ly + 24), "shadow now", font=F["foot"], fill=INK2)
-        d.rectangle([540, ly + 28, 558, ly + 44], fill=tuple(int(v) for v in HOT)); d.text((566, ly + 24), "reflection now", font=F["foot"], fill=INK2)
-        d.rectangle([740, ly - 1, 758, ly + 15], fill=GLASS[4]); d.text((766, ly - 3), "glass tower", font=F["foot"], fill=INK2)
-        d.rectangle([740, ly + 28, 758, ly + 44], fill=TOWER); d.text((766, ly + 24), "other tower ≥ 30 m", font=F["foot"], fill=INK2)
+        sw = lambda x, y, c: d.rounded_rectangle([x, y, x + 20, y + 16], 4, fill=tuple(int(v) for v in c))
+        d.text((48, ly - 4), "so far today:", font=F["foot"], fill=INK2)
+        for k, (t, x) in enumerate([("shade", 190), ("reflected sun", 300), ("both", 482)], start=1):
+            sw(x, ly, DAY[k][1] * 0.6 + DAY[k][0] * 0.4); d.text((x + 28, ly - 4), t, font=F["foot"], fill=INK2)
+        d.text((48, ly + 26), "right now:", font=F["foot"], fill=INK2)
+        sw(190, ly + 30, SHADE); d.text((218, ly + 26), "shadow", font=F["foot"], fill=INK2)
+        sw(300, ly + 30, HOT); d.text((328, ly + 26), "reflection", font=F["foot"], fill=INK2)
+        sw(740, ly, GLASS[4]); d.text((768, ly - 4), "glass tower", font=F["foot"], fill=INK2)
+        sw(740, ly + 30, TOWER); d.text((768, ly + 26), "other tower ≥ 30 m", font=F["foot"], fill=INK2)
         d.text((48, H - 34), "LoD2 3D buildings © HVBG · façade classes from Wikipedia text + photos · B. Parlatangiller", font=F["foot"], fill=(150, 145, 136))
         if outro > 0:
             ov = Image.new("RGBA", (W, H), (0, 0, 0, 0)); o = ImageDraw.Draw(ov)
             k_ = min(1, outro); a_ = int(238 * k_)
-            o.rounded_rectangle([64, MAP_Y + 250, W - 64, MAP_Y + 770], 28, fill=(253, 251, 247, a_))
-            col = (190, 70, 8, int(255 * k_)); c2 = (43, 41, 37, int(255 * k_))
-            o.text((W // 2, MAP_Y + 300), "One summer day", font=F["small"], fill=c2, anchor="ma")
-            o.text((W // 2, MAP_Y + 350), f"{k1h * 100:,.0f} ha" if k1h else "", font=F["big"], fill=col, anchor="ma")
-            o.text((W // 2, MAP_Y + 428), "of streets and roofs get 1 hour or more", font=F["small"], fill=c2, anchor="ma")
-            o.text((W // 2, MAP_Y + 462), "of sunlight thrown back by glass towers", font=F["small"], fill=c2, anchor="ma")
-            o.text((W // 2, MAP_Y + 520), f"{k30 * 100:,.0f} ha get at least 30 minutes" if k30 else "", font=F["label"], fill=c2, anchor="ma")
-            o.text((W // 2, MAP_Y + 600), f"{fac.get('matched', '')} towers checked façade by façade", font=F["label"], fill=c2, anchor="ma")
-            o.text((W // 2, MAP_Y + 650), "Interactive map: shade + reflections, every month", font=F["label"], fill=c2, anchor="ma")
-            o.text((W // 2, MAP_Y + 690), "barisparlatangiller.github.io", font=F["label"], fill=(194, 87, 12, int(255 * k_)), anchor="ma")
+            o.rounded_rectangle([64, MAP_Y + 210, W - 64, MAP_Y + 800], 28, fill=(253, 251, 247, a_))
+            c2 = (43, 41, 37, int(255 * k_)); c3 = (111, 106, 97, int(255 * k_))
+            o.text((W // 2, MAP_Y + 250), "One summer day in Frankfurt · 30 minutes or more", font=F["small"], fill=c3, anchor="ma")
+            rows = [(3, cb.get("both_ha"), "lose the sun to one tower", "and get it back from a glass one"),
+                    (1, cb.get("shade_only_ha"), "only lose sun", "to the towers' shadows"),
+                    (2, cb.get("sun_only_ha"), "only get extra sun", "reflected by glass façades")]
+            for k, (cat, v, l1, l2) in enumerate(rows):
+                y = MAP_Y + 300 + k * 120
+                c = tuple(int(x) for x in DAY[cat][1]) + (int(255 * k_),)
+                o.rounded_rectangle([120, y + 8, 146, y + 60], 6, fill=c)
+                o.text((166, y), f"{v:,.0f} ha" if v is not None else "–", font=F["big"], fill=c)
+                o.text((470, y + 6), l1, font=F["label"], fill=c2)
+                o.text((470, y + 36), l2, font=F["small"], fill=c3)
+            o.text((W // 2, MAP_Y + 680), f"{fac.get('inventory', 81)} towers ≥ 58 m checked façade by façade", font=F["label"], fill=c2, anchor="ma")
+            o.text((W // 2, MAP_Y + 720), "Tap any street on the map: when is it in shade, when does it glow?", font=F["label"], fill=c2, anchor="ma")
+            o.text((W // 2, MAP_Y + 756), "barisparlatangiller.github.io", font=F["label"], fill=ACCENT + (int(255 * k_),), anchor="ma")
             im = Image.alpha_composite(im.convert("RGBA"), ov).convert("RGB")
         return im
 
     n = 0
-    acc = np.zeros((MAP_H, W), dtype="float32"); zero = np.zeros_like(acc)
+    sh_h = np.zeros((MAP_H, W), dtype="float32"); gl_h = np.zeros_like(sh_h)
+    zero = (np.zeros_like(sh_h), np.zeros_like(sh_h))
     save = lambda im: im.save(fr / f"f{n:04d}.jpg", quality=92)
     for k in range(int(FPS * 1.2)):
         save(frame(zero, None, None, steps[0][0].strftime("%H:%M"), steps[0][2])); n += 1
@@ -220,14 +235,17 @@ def main():
     for i, (ts, az, alt) in enumerate(steps):
         gl = glare[i]
         if gl is not None:
-            acc += (gl.astype("float32") >= 0.3) * (a.step / 60)
+            gl_h += (gl.astype("float32") >= 0.3) * (a.step / 60)
+        if shade[i] is not None:
+            sh_h += shade[i] * (a.step / 60)
+        acc = (sh_h, gl_h)
         im = frame(acc, shade[i], gl, ts.strftime("%H:%M"), alt)
         save(im); n += 1
         if ts.strftime("%H%M") in stills:
             im.save(OUT / f"still_{ts.strftime('%H%M')}.png")
         v = float((gl.astype("float32") >= 0.3).sum()) if gl is not None else 0
         if ts.strftime("%H:%M") >= "18:15" and ts.strftime("%H:%M") <= "18:45" and v > best_v:
-            best, best_v = (acc.copy(), shade[i], gl, ts.strftime("%H:%M"), alt), v
+            best, best_v = ((sh_h.copy(), gl_h.copy()), shade[i], gl, ts.strftime("%H:%M"), alt), v
     for k in range(int(FPS * 1.0)):                                     # hold the full day without the moment
         save(frame(acc, None, None, "whole day", steps[-1][2])); n += 1
     for k in range(int(FPS * 4.0)):

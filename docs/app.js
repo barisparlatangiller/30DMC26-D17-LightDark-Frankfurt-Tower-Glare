@@ -7,22 +7,25 @@
   const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
   const MON = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
   const dark = document.documentElement.dataset.theme === "dark";
-  const C = { tower: dark ? "#6e6a64" : "#8a857d", bld: dark ? "#3b3936" : "#e7e2da", shade: dark ? "rgba(52,78,190,0.5)" : "rgba(28,32,70,0.42)",
-              roofShade: dark ? "#2a3c8f" : "#26306e", roof: "#3b4cca" };
+  const C = { tower: dark ? "#6e6a64" : "#8a857d", bld: dark ? "#3b3936" : "#e7e2da", shade: dark ? "rgba(88,108,166,0.52)" : "rgba(52,64,108,0.38)",
+              roofShade: dark ? "#3a4a80" : "#34406c", roof: "#3b4cca" };
   const GLASS = { 4: "#1c5c96", 3: "#4284b8", 2: "#8aa7bc", 1: "#a39888", 9: "#9a958d" };
   const GLASSN = { 4: "A1 · full glass, mirror-like", 3: "A2 · full glass, lighter", 2: "B · mixed (bands, frames)", 1: "C · mostly stone / metal", 9: "U · not verified" };
   const CL2L = { A1: 4, A2: 3, B: 2, C: 1, U: 9 };
-  const GLARE = dark ? { 1: "#7a4a22", 2: "#d9741c", 3: "#f59a33", 4: "#ffc255", 9: "#8f8579" } : { 1: "#f6d3a4", 2: "#f5a04a", 3: "#ec7a1c", 4: "#d4520a", 9: "#c8bcae" };
+  const GLARE = dark ? { 1: "#6e5440", 2: "#b5845a", 3: "#d79e66", 4: "#efbd80", 9: "#7d756c" } : { 1: "#efdcc4", 2: "#e3b98c", 3: "#d39a62", 4: "#bd7a43", 9: "#cfc5b8" };
+  const MIX = { 1: ["#96a6c4", "#465a88"], 2: ["#ecc496", "#c4783e"], 3: ["#baa0c4", "#745686"] };   // shade · reflected sun · both
+  const TL = { s: "#5d6f9c", g: "#d39a62", b: "#8c6ea0", n: dark ? "#3a3936" : "#ece7df" };
+  const DAYMODES = ["loss", "glare", "mix"];
   const LOSS = ["#d0e2f2", "#96c0e4", "#5492cd", "#265ea6", "#102c68"];
-  const GH = ["#fdd6a0", "#fbb060", "#f58228", "#de580e", "#aa3205"];
+  const GH = ["#f3dcc0", "#e9bf8f", "#dc9d62", "#c97e45", "#a8622f"];
 
   const st = { m: 6, t: 0, mode: "both", view: "3d", sel: null };
-  let map, S, T, GL, IDX = {}, GIDX = {}, playing = null, LI = null, GI = null, popup;
+  let map, S, T, GL, IDX = {}, GIDX = {}, playing = null, LI = null, GI = null, MI = null, popup;
 
   const j = (u) => fetch(u, { cache: "no-cache" }).then((r) => { if (!r.ok) throw new Error(u + " " + r.status); return r.json(); });
   const mm = (m) => String(m).padStart(2, "0");
-  Promise.all([j("data/stats.json"), j("data/towers.geojson"), j("data/glass.geojson"), j("data/sunloss/index.json").catch(() => null), j("data/glarehours/index.json").catch(() => null)])
-    .then(([s, t, g, li, gi]) => { S = s; T = t; GL = g; LI = li; GI = gi; initPanel(); initMap(); })
+  Promise.all([j("data/stats.json"), j("data/towers.geojson"), j("data/glass.geojson"), j("data/sunloss/index.json").catch(() => null), j("data/glarehours/index.json").catch(() => null), j("data/combo/index.json").catch(() => null)])
+    .then(([s, t, g, li, gi, mi]) => { S = s; T = t; GL = g; LI = li; GI = gi; MI = mi; initPanel(); initMap(); })
     .catch((e) => { $("#loading").textContent = "Could not load the data: " + e.message; });
 
   const index = (m) => Promise.all([
@@ -93,6 +96,10 @@
         map.addSource("gh", { type: "image", url: `data/glarehours/${mm(st.m)}.png`, coordinates: GI.corners });
         map.addLayer({ id: "gh", type: "raster", source: "gh", layout: { visibility: "none" }, paint: { "raster-opacity": 0.95, "raster-fade-duration": 0, "raster-resampling": "nearest" } }, first);
       }
+      if (MI && MI.corners) {
+        map.addSource("mix", { type: "image", url: `data/combo/${mm(st.m)}.png`, coordinates: MI.corners });
+        map.addLayer({ id: "mix", type: "raster", source: "mix", layout: { visibility: "none" }, paint: { "raster-opacity": 0.92, "raster-fade-duration": 0, "raster-resampling": "nearest" } }, first);
+      }
       map.addSource("b", { type: "vector", url: "pmtiles://" + new URL(`data/buildings.pmtiles?v=${S.build || 1}`, location.href).href });
       map.addLayer({ id: "b3", type: "fill-extrusion", source: "b", "source-layer": "b", minzoom: 12,
         paint: { "fill-extrusion-color": ["case", [">", ["coalesce", ["get", "g"], 0], 0], ["match", ["get", "g"], 4, GLASS[4], 3, GLASS[3], 2, GLASS[2], 1, GLASS[1], GLASS[9]],
@@ -108,7 +115,8 @@
         const g = map.queryRenderedFeatures(e.point, { layers: ["gxf"] });
         if (g.length) return selectGlass(g[0].properties.i, e.lngLat);
         const t = map.queryRenderedFeatures(e.point, { layers: ["twf"] });
-        if (t.length) selectTower(t[0].properties.i, e.lngLat);
+        if (t.length) return selectTower(t[0].properties.i, e.lngLat);
+        timeline(e.lngLat);
       });
       for (const id of ["twf", "gxf"]) {
         map.on("mouseenter", id, () => { map.getCanvas().style.cursor = "pointer"; });
@@ -131,7 +139,7 @@
     vis("b3", is3);
     vis("shg", mom && showShade()); vis("shr", mom && showShade() && is3); vis("shr2", mom && showShade() && !is3);
     vis("glg", mom && showGlare()); vis("glu", mom && showGlare() && $("#unkChk").checked); vis("glr", mom && showGlare() && is3); vis("glr2", mom && showGlare() && !is3);
-    vis("loss", st.mode === "loss"); vis("gh", st.mode === "glare");
+    vis("loss", st.mode === "loss"); vis("gh", st.mode === "glare"); vis("mix", st.mode === "mix");
     map.setPaintProperty("gxf", "fill-opacity", is3 ? 0 : 0.9);
     map.setPaintProperty("twf", "fill-color", C.tower); map.setPaintProperty("twf", "fill-opacity", is3 ? 0 : 0.7);
     if (!noEase) map.easeTo({ pitch: is3 ? 58 : 0, duration: 600 });
@@ -149,6 +157,7 @@
       $("#time").max = n - 1;
       if (map && map.getSource("loss")) map.getSource("loss").updateImage({ url: `data/sunloss/${mm(m)}.png`, coordinates: LI.corners });
       if (map && map.getSource("gh")) map.getSource("gh").updateImage({ url: `data/glarehours/${mm(m)}.png`, coordinates: GI.corners });
+      if (map && map.getSource("mix")) map.getSource("mix").updateImage({ url: `data/combo/${mm(m)}.png`, coordinates: MI.corners });
       monthSources(m); showStep(); renderPanel();
     });
   }
@@ -161,7 +170,7 @@
     }
     const H = ix.hours[st.t] || { t: "–", az: 180, alt: 0 };
     $("#time").value = st.t; $("#timeO").textContent = H.t;
-    const day = ["loss", "glare"].includes(st.mode);
+    const day = DAYMODES.includes(st.mode);
     $("#clockDay").textContent = `21 ${MON[st.m - 1]}`; $("#clockTime").textContent = day ? "all day" : H.t;
     sunDial([H.az, H.alt]);
     const n = ix.hours.length;
@@ -191,7 +200,7 @@
     $("#unkChk").onchange = () => applyView(true);
     $("#themeBtn").textContent = dark ? "☀ Light map" : "☾ Dark map";
     $("#themeBtn").onclick = () => { const u = new URL(location.href); u.searchParams.set("theme", dark ? "light" : "dark"); location.href = u.toString(); };
-    $("#playBtn").onclick = () => playing ? stop() : (["loss", "glare"].includes(st.mode) && (st.mode = "both", applyView(), renderPanel()), play());
+    $("#playBtn").onclick = () => playing ? stop() : (DAYMODES.includes(st.mode) && (st.mode = "both", applyView(), renderPanel()), play());
     $("#introGo").onclick = () => { $("#intro").hidden = true; try { localStorage.setItem("d17intro", "1"); } catch (e) { /* ignore */ } };
     $("#dayChart").onclick = (e) => {
       const ix = IDX[st.m]; if (!ix) return;
@@ -201,7 +210,7 @@
       const tt = d.times[k].slice(0, 2);
       let best = 0; ix.hours.forEach((h, i) => { if (Math.abs(+h.f - +tt) < Math.abs(+ix.hours[best].f - +tt)) best = i; });
       st.t = best; stop();
-      if (["loss", "glare"].includes(st.mode)) { st.mode = "both"; applyView(); renderPanel(); }
+      if (DAYMODES.includes(st.mode)) { st.mode = "both"; applyView(); renderPanel(); }
       showStep();
     };
     const c = S.casters || {}, f = S.facades || {};
@@ -215,7 +224,7 @@
   function renderPanel() {
     $$("#monthSeg button").forEach((b) => b.classList.toggle("on", +b.dataset.m === st.m));
     $$("#modeSeg button, #daySeg button").forEach((b) => b.classList.toggle("on", b.dataset.m === st.mode));
-    $("#timeBlock").style.display = ["loss", "glare"].includes(st.mode) ? "none" : "";
+    $("#timeBlock").style.display = DAYMODES.includes(st.mode) ? "none" : "";
     $("#unkRow").style.display = showGlare() ? "" : "none";
     const d = (S.shadows && S.shadows.days || {})[mm(st.m)];
     $("#dayHint").textContent = d ? `Sun above 5° from ${d.first} to ${d.last}, highest at ${fmt(d.max_alt)}°. Map in hourly steps; day totals from 30-minute steps.` : "";
@@ -258,6 +267,11 @@
       $("#lede").innerHTML = `<b>${M}, whole day:</b> the towers take at least one hour of direct sun from <b>${fmt(l ? l.km2[1] : d.loss_km2_1h, 2)} km²</b> of streets and roofs.`;
       return;
     }
+    if (st.mode === "mix") {
+      const c = (S.combo || {})[mm(st.m)];
+      $("#lede").innerHTML = c ? `<b>${M}, whole day</b> (30 minutes or more): <b>${fmt(c.both_ha)} ha</b> of streets and roofs lose the sun to one tower and get it back from a glass one. ${fmt(c.shade_only_ha)} ha only lose sun, ${fmt(c.sun_only_ha)} ha only get extra sun. <i>Tap a street to see its day.</i>` : "";
+      return;
+    }
     if (st.mode === "glare") {
       $("#lede").innerHTML = g ? `<b>${M}, whole day:</b> glass towers throw sunlight onto <b>${fmt(g.km2_30min * 100)} ha</b> of streets and roofs for 30 minutes or more, and onto <b>${fmt(g.km2_1h * 100)} ha</b> for an hour or more.` : "";
       return;
@@ -289,7 +303,7 @@
     s += `<text x="${x0 - 4}" y="${y0 + 3}" text-anchor="end">${fmt(mx)} ha</text><text x="${x0 - 4}" y="${y1}" text-anchor="end">0</text>`;
     [0, Math.floor((n - 1) / 2), n - 1].forEach((k) => { s += `<text x="${X(k)}" y="${y1 + 13}" text-anchor="middle">${d.times[k]}</text>`; });
     const H = ix.hours[st.t], k = H ? d.times.indexOf(H.t) : -1;
-    if (!["loss", "glare"].includes(st.mode) && k >= 0) s += `<line x1="${X(k)}" x2="${X(k)}" y1="${y0 - 4}" y2="${y1}" stroke="var(--ink)" stroke-width="1.4"/><circle cx="${X(k)}" cy="${y0 - 4}" r="3" fill="#f5b014"/>`;
+    if (!DAYMODES.includes(st.mode) && k >= 0) s += `<line x1="${X(k)}" x2="${X(k)}" y1="${y0 - 4}" y2="${y1}" stroke="var(--ink)" stroke-width="1.4"/><circle cx="${X(k)}" cy="${y0 - 4}" r="3" fill="#f5b014"/>`;
     s += `<text x="${x0}" y="136">shade: left scale · reflected sun: right scale</text>`;
     $("#dayChart").innerHTML = s;
   }
@@ -322,6 +336,85 @@
       ${p.s ? `<small><a href="${esc(p.s)}" target="_blank" rel="noopener">Wikipedia (de) ↗</a></small>` : ""}</div>`).addTo(map);
   }
 
+
+  // ---------------------------------------------------------------- a place's day: shade / reflected sun per hour + which tower
+  const R2D = Math.PI / 180;
+  function inRing(x, y, r) { let c = false; for (let i = 0, k = r.length - 1; i < r.length; k = i++) { const [xi, yi] = r[i], [xk, yk] = r[k]; if (((yi > y) !== (yk > y)) && (x < (xk - xi) * (y - yi) / (yk - yi) + xi)) c = !c; } return c; }
+  function inGeom(x, y, g) {
+    const polys = g.type === "Polygon" ? [g.coordinates] : g.type === "MultiPolygon" ? g.coordinates : [];
+    return polys.some((p) => inRing(x, y, p[0]) && !p.slice(1).some((h) => inRing(x, y, h)));
+  }
+  function local(ll) { const kx = 111320 * Math.cos(ll.lat * R2D), ky = 110540; return (p) => [(p[0] - ll.lng) * kx, (p[1] - ll.lat) * ky]; }
+  function rings(g, f) { const polys = g.type === "Polygon" ? [g.coordinates] : g.coordinates; return polys.map((p) => p[0].map(f)); }
+  function caster(ll, az, alt) {                                         // tower whose shadow covers the point
+    const f = local(ll), sx = Math.sin(az * R2D), sy = Math.cos(az * R2D), tan = Math.tan(alt * R2D);
+    let best = null;
+    for (const t of T.features) {
+      const h = t.properties.h || 0, L = Math.min(1600, h / tan);
+      const rs = rings(t.geometry, f); const c = rs[0][0];
+      if (Math.hypot(c[0], c[1]) > L + 150) continue;
+      for (let s = 0; s <= L; s += 4) {
+        if (s * tan > h) break;
+        if (rs.some((r) => inRing(s * sx, s * sy, r))) { if (!best || s < best.s) best = { s, n: t.properties.n || "an unnamed tower" }; break; }
+      }
+    }
+    return best && best.n;
+  }
+  function mirror(ll, az, alt) {                                         // glass tower whose reflection reaches the point
+    const f = local(ll), sh = [Math.sin(az * R2D), Math.cos(az * R2D)], d = [-sh[0], -sh[1]], tan = Math.tan(alt * R2D);
+    let best = null;
+    for (const t of GL.features) {
+      const p = t.properties; if (p.c === "U" && !$("#unkChk").checked) continue;
+      const L = Math.min(1600, p.h / tan);
+      for (const r of rings(t.geometry, f)) {
+        let A2 = 0; for (let i = 0; i < r.length - 1; i++) A2 += r[i][0] * r[i + 1][1] - r[i + 1][0] * r[i][1];
+        const ccw = A2 > 0;
+        for (let i = 0; i < r.length - 1; i++) {
+          const [ax, ay] = r[i], [bx, by] = r[i + 1], ex = bx - ax, ey = by - ay, len = Math.hypot(ex, ey); if (len < 2) continue;
+          let nx = ey / len, ny = -ex / len; if (!ccw) { nx = -nx; ny = -ny; }
+          if (nx * sh[0] + ny * sh[1] <= 0.05) continue;
+          const dd = d[0] * nx + d[1] * ny, rx = d[0] - 2 * dd * nx, ry = d[1] - 2 * dd * ny;
+          const det = ex * ry - ey * rx; if (Math.abs(det) < 1e-9) continue;
+          const px = -ax, py = -ay, tt = (px * ry - py * rx) / det, s = (ex * py - ey * px) / det;
+          if (tt >= 0 && tt <= 1 && s >= 2 && s <= L) { const sc = p.w * 10 - s / 200; if (!best || sc > best.sc) best = { sc, n: p.n, c: p.c }; }
+        }
+      }
+    }
+    return best;
+  }
+  function timeline(ll) {
+    const ix = IDX[st.m]; if (!ix || !map.getSource("sh")) return;
+    const M = `21 ${MON[st.m - 1]}`;
+    if (map.getZoom() < 13) { popup.setLngLat(ll).setHTML(`<div class="pop"><b>Zoom in to see this place's day</b></div>`).addTo(map); return; }
+    const sH = new Set(), gH = {};
+    for (const f of map.querySourceFeatures("sh", { sourceLayer: "s" })) if (!sH.has(f.properties.hr) && inGeom(ll.lng, ll.lat, f.geometry)) sH.add(f.properties.hr);
+    if (map.getSource("gl")) for (const f of map.querySourceFeatures("gl", { sourceLayer: "r" })) {
+      const lv = f.properties.lev; if (lv === 9 && !$("#unkChk").checked) continue;
+      if (inGeom(ll.lng, ll.lat, f.geometry)) gH[f.properties.hr] = Math.max(gH[f.properties.hr] || 0, lv === 9 ? 0.5 : lv);
+    }
+    const rows = ix.hours.map((h) => {
+      const hr = +h.f, s = sH.has(hr), g = gH[hr] != null;
+      return { t: h.t, s, g, k: s && g ? "b" : s ? "s" : g ? "g" : "n", sn: s ? caster(ll, h.az, h.alt) : null, gn: g ? mirror(ll, h.az, h.alt) : null };
+    });
+    const strip = rows.map((r) => `<i title="${r.t}" style="background:${TL[r.k]}"></i>`).join("");
+    const runs = [];
+    for (const r of rows) {
+      for (const [on, kind, who] of [[r.s, "shade", r.sn], [r.g, "reflected sun", r.gn ? `${r.gn.n} (${r.gn.c})` : null]]) {
+        if (!on) continue;
+        const last = runs.filter((x) => x.kind === kind).at(-1);
+        if (last && last.who === who && last.end === rows.indexOf(r) - 1) { last.end++; last.t1 = r.t; } else runs.push({ kind, who, start: rows.indexOf(r), end: rows.indexOf(r), t0: r.t, t1: r.t });
+      }
+    }
+    runs.sort((a, b) => a.start - b.start);
+    const plus1 = (t) => `${String(+t.slice(0, 2) + 1).padStart(2, "0")}:00`;
+    const list = runs.length ? runs.map((x) => `<li><i style="background:${x.kind === "shade" ? TL.s : TL.g}"></i><b>${x.t0}–${plus1(x.t1)}</b> ${x.kind}${x.who ? ` · <span>${esc(x.who)}</span>` : ""}</li>`).join("")
+      : `<li>No tower shade and no reflected sun here on ${M}.</li>`;
+    const nS = rows.filter((r) => r.s).length, nG = rows.filter((r) => r.g).length;
+    popup.setLngLat(ll).setHTML(`<div class="pop tl"><b>This spot · ${M}</b><small>${nS} h in a tower's shadow · ${nG} h of reflected sun (hourly)</small>
+      <div class="strip">${strip}</div><div class="stripx mono"><span>${ix.hours[0].t}</span><span>${ix.hours.at(-1).t}</span></div>
+      <ul class="runs">${list}</ul><small class="note">Which tower: estimated from the sun's direction and the towers' outlines.</small></div>`).addTo(map);
+  }
+
   function legend() {
     const L = $("#legend"), M = `21 ${MON[st.m - 1]}`;
     if (st.mode === "loss") {
@@ -329,6 +422,14 @@
       L.innerHTML = `<div class="lg-title">Direct sun lost to the towers · ${M}</div><div class="lg-sub">hours over the whole day, ground and roofs</div>
         <div class="vsteps">${LOSS.map((c) => `<i style="background:${c}"></i>`).join("")}</div>
         <div class="vticks">${b.map((x, k) => `<span>${x}${k === b.length - 1 ? "+ h" : ""}</span>`).join("")}</div>`;
+      return;
+    }
+    if (st.mode === "mix") {
+      L.innerHTML = `<div class="lg-title">Shade, reflected sun or both · ${M}</div><div class="lg-sub">whole day, 30 minutes or more · darker = 2 h or more</div>
+        <div class="lg-row"><i class="sq" style="background:linear-gradient(90deg,${MIX[1][0]} 50%,${MIX[1][1]} 50%)"></i>only shade <small>sun lost to towers</small></div>
+        <div class="lg-row"><i class="sq" style="background:linear-gradient(90deg,${MIX[2][0]} 50%,${MIX[2][1]} 50%)"></i>only reflected sun <small>from glass</small></div>
+        <div class="lg-row"><i class="sq" style="background:linear-gradient(90deg,${MIX[3][0]} 50%,${MIX[3][1]} 50%)"></i>both <small>at different times</small></div>
+        <div class="lg-sub" style="margin-top:6px">Tap any street or roof for its timeline.</div>`;
       return;
     }
     if (st.mode === "glare") {

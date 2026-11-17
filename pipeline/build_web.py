@@ -55,7 +55,41 @@ def sunloss():
 
 
 GBINS = [0.5, 1, 1.5, 2, 3]
-GCOLS = [(253, 214, 160, 120), (251, 176, 96, 160), (245, 130, 40, 195), (222, 88, 14, 215), (170, 50, 5, 230)]   # light → deep orange
+GCOLS = [(243, 220, 192, 150), (233, 191, 143, 175), (220, 157, 98, 200), (201, 126, 69, 215), (168, 98, 47, 225)]  # soft → deep amber
+# day mix (shade / reflected sun / both, ≥ 30 min each), light and deep (≥ 2 h together)
+MIX = {1: [(150, 166, 196, 170), (70, 90, 136, 215)], 2: [(236, 196, 150, 185), (196, 120, 62, 220)], 3: [(186, 160, 196, 190), (116, 86, 134, 225)]}
+
+
+def combo():
+    """lost sun hours (shadows, 5 m) + hours of reflected sun (4 m) → only shade / only reflected sun / both"""
+    if not (B / "glare_meta.npy").exists():
+        return {}
+    x0, y1, res, w, h = np.load(B / "sunloss_meta.npy"); w, h = int(w), int(h)
+    tr = Affine(res, 0, x0, 0, -res, y1)
+    gx0, gy0, gx1, gy1, gres, gw, gh = np.load(B / "glare_meta.npy")
+    gtr = Affine(gres, 0, gx0, 0, -gres, gy1)
+    (W / "combo").mkdir(parents=True, exist_ok=True)
+    stats, corners = {}, None
+    for f in sorted(B.glob("sunloss_[0-9][0-9].npy")):
+        mo = f.stem[-2:]
+        gp = B / f"glare_{mo}.npy"
+        if not gp.exists():
+            continue
+        loss = np.load(f); g = np.load(gp)
+        gl = np.zeros(loss.shape, dtype="float32")
+        reproject(g, gl, src_transform=gtr, src_crs=25832, dst_transform=tr, dst_crs=25832, resampling=Resampling.max)
+        s, r = loss >= 0.5, gl >= 0.5
+        cat = np.where(s & r, 3, np.where(r, 2, np.where(s, 1, 0))).astype("float32")
+        deep = (loss * s + gl * r) >= 2
+        code = cat * 2 - 1 + deep                                         # 1..6, 0 = nothing
+        code[cat == 0] = 0
+        cols = [MIX[1][0], MIX[1][1], MIX[2][0], MIX[2][1], MIX[3][0], MIX[3][1]]
+        corners = png_layer(code, tr, [0.5, 1.5, 2.5, 3.5, 4.5, 5.5], cols, W / "combo" / f"{mo}.png")
+        ha = res * res / 1e4
+        stats[mo] = {"shade_only_ha": round(float((s & ~r).sum() * ha)), "sun_only_ha": round(float((r & ~s).sum() * ha)),
+                     "both_ha": round(float((s & r).sum() * ha))}
+    (W / "combo" / "index.json").write_text(json.dumps({"corners": corners}))
+    return stats
 
 
 def png_layer(arr, src_tr, bins, cols, out):
@@ -189,10 +223,11 @@ def main():
     s["shadow_tiles_mb"] = shadow_tiles()
     s["glare_tiles_mb"] = shadow_tiles("glare", "r")
     s["glarehours"] = glarehours()
+    s["combo"] = combo()
     s["glass_rank"] = glass()
     s["build"] = int(time.time())                                        # cache key for the tile files
     (W / "stats.json").write_text(json.dumps(s, ensure_ascii=False, indent=1))
-    print(json.dumps({k: s[k] for k in ("sunloss", "buildings_in_reach", "tower_rank", "glarehours", "glass_rank")}, ensure_ascii=False, indent=1)[:3000])
+    print(json.dumps({k: s[k] for k in ("sunloss", "buildings_in_reach", "tower_rank", "glarehours", "glass_rank", "combo")}, ensure_ascii=False, indent=1)[:3000])
 
 
 if __name__ == "__main__":
