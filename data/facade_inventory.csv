@@ -1,82 +1,82 @@
 id,name,h,lat,lon,cls,w,facade,look,geom,conf,evidence,src
-1,Commerzbank Tower,259,50.110833,8.674167,A2,0.75,Çift kabuklu giydirme cephe,"Açık gri, orta yansıtıcı","Yuvarlatılmış üçgen, dışbükey kenarlar",Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Commerzbank_Tower
-2,Messeturm,256.5,50.112222,8.6525,B,0.45,Taş ızgara + pencere,"Pencereler koyu mavi yansıtıcı, taş mat","Kare gövde, köşe çıkıntılı, piramit tepe",Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Messeturm_(Frankfurt_am_Main)
-3,FOUR Frankfurt T1,233,50.1122,8.6734,A2,0.75,Tam cam giydirme cephe,"Açık, yarı yansıtıcı",Basamaklı prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Four_(Frankfurt_am_Main)
-4,FOUR Frankfurt T2,173,50.112,8.6743,A2,0.75,Tam cam giydirme cephe,"Açık, yarı yansıtıcı",Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Four_(Frankfurt_am_Main)
-5,FOUR Frankfurt T3,120,50.1125,8.6747,A2,0.75,Tam cam giydirme cephe (tahmin),Açık,Prizma,Düşük,Fotoğraf (topluluk),https://de.wikipedia.org/wiki/Four_(Frankfurt_am_Main)
-6,FOUR Frankfurt T4,100,50.1127,8.6739,A2,0.75,Tam cam giydirme cephe (tahmin),Açık,Prizma,Düşük,Fotoğraf (topluluk),https://de.wikipedia.org/wiki/Four_(Frankfurt_am_Main)
-7,Westendstraße 1 (Westend Tower / Kronenhochhaus),208,50.110556,8.6625,C,0.15,Delikli taş cephe,Taş mat; pencereler küçük,Kare gövde + taç,Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Westendstraße_1
-8,MAIN TOWER,200,50.1125,8.672222,A1,1.0,Tam cam giydirme cephe,"Mavi, yüksek yansıtıcı",Silindir + küp,Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Main_Tower
-9,Tower 185,200,50.110639,8.656278,B,0.45,Dikey lamelli cam cephe,"Bronz tonlu, orta yansıtıcı",Pantolon formu (iki kanat + gövde),Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Tower_185
-10,ONE,191,50.110389,8.653778,A1,1.0,Tam cam giydirme cephe,"Mavi-gri, yansıtıcı","Düz prizma, kaydırılmış bloklar",Orta,Fotoğraf,https://de.wikipedia.org/wiki/One_(Frankfurt_am_Main)
-11,Trianon,186,50.112694,8.666667,A1,1.0,Dar dikmeli cam/delikli cephe,"Koyu mavi, yüksek yansıtıcı","Üçgen plan, yatık tepe",Orta,Metin + fotoğraf,https://de.wikipedia.org/wiki/Trianon_(Frankfurt_am_Main)
-12,Omniturm,190,50.111389,8.673056,A1,1.0,Tam cam giydirme cephe,"Açık gri, yansıtıcı","Kaydırılmış katlı prizma (""kalça"")",Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Omniturm
-13,European Central Bank (new tower),185,50.109444,8.7025,A1,1.0,Tam cam giydirme cephe,"Açık mavi-gri, yansıtıcı","Faset/bükülmüş hibrit, iki kule",Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Neubau_der_Europäischen_Zentralbank
-14,Grand Tower,180,50.108417,8.654528,B,0.45,Lojialı cam cephe,"Açık cam, balkon kenarları beyaz","Kare prizma, yuvarlak köşe",Orta,Metin,https://de.wikipedia.org/wiki/Grand_Tower_(Frankfurt_am_Main)
-15,Opernturm,170,50.116083,8.670194,B,0.45,Taş ızgara + pencere,"Taş mat, cam orta","Prizma, basamaklı",Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Opernturm
-16,Taunusturm,170,50.110556,8.673056,B,0.45,Taş çerçeveli cam cephe,"Açık, orta yansıtıcı",Prizma,Yüksek,Metin,https://de.wikipedia.org/wiki/Taunusturm
-17,Silberturm,166,50.109678,8.669339,B,0.45,Bant pencereli metal cephe,"Gümüş, metalik parlak",Yuvarlatılmış köşeli prizma,Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Silberturm
-18,Westend Gate,159,50.114528,8.650417,B,0.45,Bant pencereli cephe,"Koyu, orta yansıtıcı","İnce prizma, basamaklı",Orta,Fotoğraf,https://de.wikipedia.org/wiki/Westend_Gate
-19,Deutsche Bank Towers I,155,50.113611,8.668056,A1,1.0,Tam cam giydirme cephe,"Aynalı, çok yüksek yansıtıcı",Testere dişli prizma,Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Deutsche-Bank-Hochhaus
-20,Deutsche Bank Towers II,155,50.113611,8.668056,A1,1.0,Tam cam giydirme cephe,"Aynalı, çok yüksek yansıtıcı",Testere dişli prizma,Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Deutsche-Bank-Hochhaus
-21,Marienturm,155,50.112222,8.668611,A1,1.0,Tam cam giydirme cephe,"Mavi, yansıtıcı",Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Marienturm_(Frankfurt_am_Main)
-22,Skyper,154,50.11,8.669167,A2,0.75,Tam cam giydirme cephe,"Açık, orta yansıtıcı",Eğri (yuvarlatılmış) prizma,Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Skyper_(Frankfurt_am_Main)
-23,Eurotower,148,50.109722,8.674167,B,0.45,Bant pencereli cephe,"Gri, orta yansıtıcı",Düz prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Eurotower
-24,City-Haus,142,50.110278,8.66,B,0.45,Bant pencereli cephe,"Açık, düşük-orta",Prizma,Orta,Metin + fotoğraf,https://de.wikipedia.org/wiki/City-Haus_I
-25,Frankfurter Büro Center,142,50.111389,8.664444,B,0.45,Bant pencereli cephe,"Koyu, orta",Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Frankfurter_Büro_Center
-26,Neuer Henninger-Turm,140,50.097164,8.693758,A2,0.75,Cam cephe + balkon,"Açık, orta",Silindirik gövde + tepe çıkıntısı,Orta,Metin,https://de.wikipedia.org/wiki/Neuer_Henninger-Turm
-27,One Forty West,145,50.116111,8.651389,B,0.45,Balkonlu cam cephe,Açık,Prizma,Orta,Metin,https://de.wikipedia.org/wiki/One_Forty_West
-28,Gallileo,137,50.1094,8.671,A2,0.75,Tam cam giydirme cephe,Mavi-gri,Prizma,Orta,Metin + fotoğraf,https://de.wikipedia.org/wiki/Gallileo
-29,Nextower,136,50.1156,8.6805,B,0.45,Metal çerçeveli cam cephe,Açık metalik,Prizma,Orta,Metin,https://de.wikipedia.org/wiki/Palaisquartier
-30,Jumeirah/Thurn-und-Taxis hotel tower,99,50.1156,8.6805,B,0.45,Metal çerçeveli cam cephe,Açık metalik,Prizma,Düşük,Metin (topluluk),https://de.wikipedia.org/wiki/Palaisquartier
-31,Castor,95,50.11152,8.654268,A2,0.75,Tam cam giydirme cephe,Açık mavi,Prizma,Orta,Fotoğraf (topluluk),https://de.wikipedia.org/wiki/Kastor_und_Pollux_(Frankfurt_am_Main)
-32,Pollux,130,50.1115,8.6542,A1,1.0,Tam cam giydirme cephe,"Açık mavi, yansıtıcı","Prizma, eğik tepe",Orta,Fotoğraf,https://de.wikipedia.org/wiki/Kastor_und_Pollux_(Frankfurt_am_Main)
-33,Garden Tower,127,50.112,8.6727,A1,1.0,Tam cam giydirme cephe,"Açık, yansıtıcı",Poligonal (fasetli),Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Garden_Tower
-34,Messe Torhaus,117,50.111659,8.643059,B,0.45,Taş + aynalı cam,Aynalı orta bölüm,İki dilim + yarık,Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Messe_Torhaus
-35,Japan Center,115,50.111289,8.672421,C,0.15,Delikli taş cephe,Taş mat,"Kare prizma, çatı saçağı",Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Japan_Center
-36,Park Tower,115,50.117114,8.670616,B,0.45,Karma,Karma,Prizma,Orta,Metin,https://de.wikipedia.org/wiki/Park_Tower_(Frankfurt_am_Main)
-37,Westhafen Tower,112,50.101265,8.664411,A1,1.0,Fasetli cam kabuk,"Açık, yansıtıcı","Silindir, üçgen fasetler",Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Westhafen_Tower
-38,Eurotheum,110,50.113112,8.671956,A1,1.0,Tam cam giydirme cephe,"Mavi-yeşil, yansıtıcı","Prizma, yuvarlak tepe",Orta,Fotoğraf,https://de.wikipedia.org/wiki/Eurotheum
-39,IBC Tower,112,50.114713,8.642474,B,0.45,Izgara cephe,Açık gri,Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/IBC_(Frankfurt_am_Main)
-40,Maintor WinX,110,50.108528,8.67626,A1,1.0,Tam cam giydirme cephe,Açık mavi,Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Maintor_(Gebäude)
-41,Maintor Panorama,64,50.108,8.6765,U,0.5,,,,Belirsiz,—,https://de.wikipedia.org/wiki/Maintor_(Gebäude)
-42,Global Tower,109,50.110924,8.673665,B,0.45,Metal çerçeveli cam cephe,"Bronz, orta",Prizma,Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Global_Tower
-44,EDEN,98,50.107629,8.653594,C,0.15,Bitkili balkon cephe,Mat (bitki),Prizma,Orta,Metin,https://de.wikipedia.org/wiki/Eden_(Hochhaus)
-45,Westend Duo,96,50.117317,8.666512,A2,0.75,Tam cam giydirme cephe,Açık,İki kule,Orta,Fotoğraf,https://de.wikipedia.org/wiki/WestendDuo
-46,Hochhaus am Park / 160 Park View,96,50.123515,8.66608,A1,1.0,Tam cam giydirme cephe,Açık mavi,Prizma,Orta,Metin + fotoğraf,https://de.wikipedia.org/wiki/Hochhaus_am_Park
-47,Commerzbank Trading Center,93,50.106421,8.65644,C,0.15,Delikli/bant cephe,Mat,Prizma,Düşük,Fotoğraf,https://de.wikipedia.org/wiki/Hafenstraße_51_(Frankfurt_am_Main)
-48,Union Investment,93,50.104248,8.668047,B,0.45,Bant pencereli cephe,"Açık, düşük-orta",Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Union_Investment-Hochhaus
-49,MainPlaza,88,50.106181,8.695695,C,0.15,Delikli tuğla cephe,Mat,Basamaklı prizma,Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Main_Plaza
-50,Bürohaus an der Alten Oper,89,50.113758,8.671588,A2,0.75,Tam cam giydirme cephe,Açık,Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Bürohaus_an_der_Alten_Oper
-51,Rhein-Main-Center,84,50.117166,8.664308,C,0.15,Delikli cephe,Mat,Prizma,Düşük,Fotoğraf,https://de.wikipedia.org/wiki/Rhein-Main-Center
-52,Central Parx (eski BHF-Bank-Hochhaus),82,50.116378,8.668499,B,0.45,Bant pencereli cephe,"Açık, düşük-orta",Prizma,Orta,Metin + fotoğraf,https://de.wikipedia.org/wiki/Central_Parx
-53,Main Forum (IG-Metall-Haus),80,50.103185,8.6662,B,0.45,Yöne göre karma,Doğu cephe cam,Prizma,Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/Main_Forum
-54,Chase Bank AG,75,50.11271,8.66836,A1,1.0,Tam cam giydirme cephe,"Koyu, yansıtıcı",Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Taunusanlage_11
-55,K26,75,50.11041,8.674,C,0.15,Delikli taş cephe,Mat,Prizma,Yüksek,Metin + fotoğraf,https://de.wikipedia.org/wiki/K26
-56,Turm-Center,74,50.11965,8.678413,U,0.5,,,,Belirsiz,—,
-57,Finanz-Informatik-Hochhaus,70,50.115216,8.637119,U,0.5,,,,Belirsiz,—,
-58,Cielo,70,50.115443,8.633773,U,0.5,,,,Belirsiz,—,
-59,Hochhaus am Turm,69,50.117494,8.680845,U,0.5,,,,Belirsiz,—,
-60,Kassenärztliche Vereinigung,69,50.11526,8.649885,U,0.5,,,,Belirsiz,—,
-61,T8,68,50.111807,8.668889,U,0.5,,,,Belirsiz,Fotoğraf (belirsiz),https://de.wikipedia.org/wiki/Taunusanlage_8
-62,Romeo & Julia,67,50.115783,8.665241,A2,0.75,Çift kabuklu cam cephe,Koyu cam,İki kule,Orta,Metin + fotoğraf,https://de.wikipedia.org/wiki/Bürogebäude_Ulmenstraße_37–39
-63,InterContinental,67,50.104447,8.669065,B,0.45,Bant pencereli cephe,"Koyu, orta",Prizma,Orta,Metin + fotoğraf,https://de.wikipedia.org/wiki/InterContinental_Frankfurt
-65,Skylight,63,50.116912,8.682168,C,0.15,Metal panel + pencere,Mat,Prizma,Orta,Metin + fotoğraf,https://de.wikipedia.org/wiki/Skylight_(Frankfurt_am_Main)
-66,KfW Palmengartenstraße,61,50.120654,8.655499,U,0.5,,,,Belirsiz,—,
-69,Praedium,60,50.10773,8.635806,U,0.5,,,,Belirsiz,—,
-70,FAZ Tower,67,50.108581,8.635733,A2,0.75,Tam cam giydirme cephe,Açık,Kaydırılmış bloklar,Orta,Fotoğraf,https://de.wikipedia.org/wiki/FAZ-Tower
-71,"NM-1 (Schweizer Nationalbank, Neue Mainzer Straße 1)",57,50.107584,8.675197,U,0.5,,,,Belirsiz,—,
-72,The Spin,128,50.1076,8.655,U,0.5,,,Döndürülmüş katlar (tahmin),Düşük,—,https://de.wikipedia.org/wiki/The_Spin
-73,Europa-Allee-Tower,124,50.109,8.6424,A1,1.0,Tam cam giydirme cephe,"Açık, yansıtıcı",Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Europa-Allee-Tower
-74,City Gate,110,50.128784,8.6918,B,0.45,Metal çerçeveli cam cephe,"Mavi, orta-yüksek",Prizma,Yüksek,Metin,https://de.wikipedia.org/wiki/City_Gate_(Frankfurt)
-75,Senckenberg-Turm,106,50.116376,8.650847,B,0.45,Dikey bantlı cam cephe,Açık,Prizma,Orta,Metin + fotoğraf,https://de.wikipedia.org/wiki/Senckenberg-Turm
-76,Leonardo Royal Hotel,100,50.091485,8.690776,C,0.15,Delikli cephe,Mat,Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Leonardo_Royal_Hotel_Frankfurt
-77,Arabella Center,96.3,50.076938,8.627564,C,0.15,Delikli cephe,Mat,Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/Arabella_Center
-78,Radisson Blu Hotel,96,50.117347,8.627257,A1,1.0,Tam cam giydirme cephe,"Mavi, yansıtıcı",Dairesel disk (eğri),Orta,Fotoğraf,https://de.wikipedia.org/wiki/Radisson_Blu_Hotel_Frankfurt
-80,Campus Tower,80.3,50.079848,8.627967,C,0.15,Metal panel + pencere,"Açık metal, mat",Prizma,Orta,Metin + fotoğraf,https://de.wikipedia.org/wiki/Campus_Tower
-81,American Express-Hochhaus,75,50.116351,8.62995,A1,1.0,Tam cam giydirme cephe,Yansıtıcı,Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/American_Express-Hochhaus
-82,St Martin Tower,70,50.116728,8.628496,A2,0.75,Tam cam giydirme cephe,Açık,Prizma,Orta,Fotoğraf,https://de.wikipedia.org/wiki/St_Martin_Tower
-83,Alpha Rotex,68,50.056351,8.589021,U,0.5,,,,Belirsiz,—,
-84,Ehemalige DB-Hauptverwaltung,65,50.106828,8.639376,U,0.5,,,,Belirsiz,—,https://de.wikipedia.org/wiki/Ehemalige_Hauptverwaltung_Deutsche_Bahn_AG_(Frankfurt_am_Main)
-85,Taunusturm (konut kulesi),63,50.110396,8.672934,B,0.45,Taş çerçeveli cam cephe,Açık,Prizma,Orta,Metin (topluluk),https://de.wikipedia.org/wiki/Taunusturm
-86,Main Triangel,60,50.104901,8.703891,A1,1.0,Tam cam giydirme cephe,"Mavi, yansıtıcı",Yelken (eğri),Orta,Metin + fotoğraf,https://de.wikipedia.org/wiki/Main_Triangel
+1,Commerzbank Tower,259,50.110833,8.674167,A2,0.75,Double-skin curtain wall,"Light grey, medium reflective","Rounded triangle, convex sides",High,Text + photo,https://de.wikipedia.org/wiki/Commerzbank_Tower
+2,Messeturm,256.5,50.112222,8.6525,B,0.45,Stone grid + windows,"Dark blue reflective windows, matt stone","Square shaft, corner projections, pyramid top",High,Text + photo,https://de.wikipedia.org/wiki/Messeturm_(Frankfurt_am_Main)
+3,FOUR Frankfurt T1,233,50.1122,8.6734,A2,0.75,Full glass curtain wall,"Light, semi-reflective",Stepped prism,Medium,Photo,https://de.wikipedia.org/wiki/Four_(Frankfurt_am_Main)
+4,FOUR Frankfurt T2,173,50.112,8.6743,A2,0.75,Full glass curtain wall,"Light, semi-reflective",Prism,Medium,Photo,https://de.wikipedia.org/wiki/Four_(Frankfurt_am_Main)
+5,FOUR Frankfurt T3,120,50.1125,8.6747,A2,0.75,Full glass curtain wall (estimate),Light,Prism,Low,Photo (complex),https://de.wikipedia.org/wiki/Four_(Frankfurt_am_Main)
+6,FOUR Frankfurt T4,100,50.1127,8.6739,A2,0.75,Full glass curtain wall (estimate),Light,Prism,Low,Photo (complex),https://de.wikipedia.org/wiki/Four_(Frankfurt_am_Main)
+7,Westendstraße 1 (Westend Tower / Kronenhochhaus),208,50.110556,8.6625,C,0.15,Punched stone façade,Matt stone; small windows,Square shaft + crown,High,Text + photo,https://de.wikipedia.org/wiki/Westendstraße_1
+8,MAIN TOWER,200,50.1125,8.672222,A1,1.0,Full glass curtain wall,"Blue, highly reflective",Cylinder + cube,High,Text + photo,https://de.wikipedia.org/wiki/Main_Tower
+9,Tower 185,200,50.110639,8.656278,B,0.45,Glass with vertical fins,"Bronze tint, medium reflective",Trouser shape (two wings + shaft),High,Text + photo,https://de.wikipedia.org/wiki/Tower_185
+10,ONE,191,50.110389,8.653778,A1,1.0,Full glass curtain wall,"Blue-grey, reflective","Flat prism, shifted blocks",Medium,Photo,https://de.wikipedia.org/wiki/One_(Frankfurt_am_Main)
+11,Trianon,186,50.112694,8.666667,A1,1.0,Narrow-mullion glass / punched façade,"Dark blue, highly reflective","Triangular plan, slanted top",Medium,Text + photo,https://de.wikipedia.org/wiki/Trianon_(Frankfurt_am_Main)
+12,Omniturm,190,50.111389,8.673056,A1,1.0,Full glass curtain wall,"Light grey, reflective","Prism with shifted floors (""hip"")",High,Text + photo,https://de.wikipedia.org/wiki/Omniturm
+13,European Central Bank (new tower),185,50.109444,8.7025,A1,1.0,Full glass curtain wall,"Light blue-grey, reflective","Faceted / twisted hybrid, two towers",High,Text + photo,https://de.wikipedia.org/wiki/Neubau_der_Europäischen_Zentralbank
+14,Grand Tower,180,50.108417,8.654528,B,0.45,Glass façade with loggias,"Clear glass, white balcony edges","Square prism, rounded corners",Medium,Text,https://de.wikipedia.org/wiki/Grand_Tower_(Frankfurt_am_Main)
+15,Opernturm,170,50.116083,8.670194,B,0.45,Stone grid + windows,"Matt stone, medium glass","Prism, stepped",High,Text + photo,https://de.wikipedia.org/wiki/Opernturm
+16,Taunusturm,170,50.110556,8.673056,B,0.45,Stone-framed glass façade,"Light, medium reflective",Prism,High,Text,https://de.wikipedia.org/wiki/Taunusturm
+17,Silberturm,166,50.109678,8.669339,B,0.45,Metal façade with ribbon windows,"Silver, shiny metal","Prism, rounded corners",High,Text + photo,https://de.wikipedia.org/wiki/Silberturm
+18,Westend Gate,159,50.114528,8.650417,B,0.45,Ribbon windows,"Dark, medium reflective","Slender prism, stepped",Medium,Photo,https://de.wikipedia.org/wiki/Westend_Gate
+19,Deutsche Bank Towers I,155,50.113611,8.668056,A1,1.0,Full glass curtain wall,"Mirror glass, very reflective",Saw-tooth prism,High,Text + photo,https://de.wikipedia.org/wiki/Deutsche-Bank-Hochhaus
+20,Deutsche Bank Towers II,155,50.113611,8.668056,A1,1.0,Full glass curtain wall,"Mirror glass, very reflective",Saw-tooth prism,High,Text + photo,https://de.wikipedia.org/wiki/Deutsche-Bank-Hochhaus
+21,Marienturm,155,50.112222,8.668611,A1,1.0,Full glass curtain wall,"Blue, reflective",Prism,Medium,Photo,https://de.wikipedia.org/wiki/Marienturm_(Frankfurt_am_Main)
+22,Skyper,154,50.11,8.669167,A2,0.75,Full glass curtain wall,"Light, medium reflective",Curved (rounded) prism,High,Text + photo,https://de.wikipedia.org/wiki/Skyper_(Frankfurt_am_Main)
+23,Eurotower,148,50.109722,8.674167,B,0.45,Ribbon windows,"Grey, medium reflective",Flat prism,Medium,Photo,https://de.wikipedia.org/wiki/Eurotower
+24,City-Haus,142,50.110278,8.66,B,0.45,Ribbon windows,"Light, low–medium",Prism,Medium,Text + photo,https://de.wikipedia.org/wiki/City-Haus_I
+25,Frankfurter Büro Center,142,50.111389,8.664444,B,0.45,Ribbon windows,"Dark, medium",Prism,Medium,Photo,https://de.wikipedia.org/wiki/Frankfurter_Büro_Center
+26,Neuer Henninger-Turm,140,50.097164,8.693758,A2,0.75,Glass façade + balconies,"Light, medium",Cylindrical shaft + top overhang,Medium,Text,https://de.wikipedia.org/wiki/Neuer_Henninger-Turm
+27,One Forty West,145,50.116111,8.651389,B,0.45,Glass façade with balconies,Light,Prism,Medium,Text,https://de.wikipedia.org/wiki/One_Forty_West
+28,Gallileo,137,50.1094,8.671,A2,0.75,Full glass curtain wall,Blue-grey,Prism,Medium,Text + photo,https://de.wikipedia.org/wiki/Gallileo
+29,Nextower,136,50.1156,8.6805,B,0.45,Metal-framed glass façade,Light metallic,Prism,Medium,Text,https://de.wikipedia.org/wiki/Palaisquartier
+30,Jumeirah/Thurn-und-Taxis hotel tower,99,50.1156,8.6805,B,0.45,Metal-framed glass façade,Light metallic,Prism,Low,Text (complex),https://de.wikipedia.org/wiki/Palaisquartier
+31,Castor,95,50.11152,8.654268,A2,0.75,Full glass curtain wall,Light blue,Prism,Medium,Photo (complex),https://de.wikipedia.org/wiki/Kastor_und_Pollux_(Frankfurt_am_Main)
+32,Pollux,130,50.1115,8.6542,A1,1.0,Full glass curtain wall,"Light blue, reflective","Prism, sloped top",Medium,Photo,https://de.wikipedia.org/wiki/Kastor_und_Pollux_(Frankfurt_am_Main)
+33,Garden Tower,127,50.112,8.6727,A1,1.0,Full glass curtain wall,"Light, reflective",Polygonal (faceted),High,Text + photo,https://de.wikipedia.org/wiki/Garden_Tower
+34,Messe Torhaus,117,50.111659,8.643059,B,0.45,Stone + mirror glass,Mirror-glass centre section,Two slabs + slit,High,Text + photo,https://de.wikipedia.org/wiki/Messe_Torhaus
+35,Japan Center,115,50.111289,8.672421,C,0.15,Punched stone façade,Matt stone,"Square prism, roof canopy",High,Text + photo,https://de.wikipedia.org/wiki/Japan_Center
+36,Park Tower,115,50.117114,8.670616,B,0.45,Mixed,Mixed,Prism,Medium,Text,https://de.wikipedia.org/wiki/Park_Tower_(Frankfurt_am_Main)
+37,Westhafen Tower,112,50.101265,8.664411,A1,1.0,Faceted glass shell,"Light, reflective","Cylinder, triangular facets",High,Text + photo,https://de.wikipedia.org/wiki/Westhafen_Tower
+38,Eurotheum,110,50.113112,8.671956,A1,1.0,Full glass curtain wall,"Blue-green, reflective","Prism, rounded top",Medium,Photo,https://de.wikipedia.org/wiki/Eurotheum
+39,IBC Tower,112,50.114713,8.642474,B,0.45,Grid façade,Light grey,Prism,Medium,Photo,https://de.wikipedia.org/wiki/IBC_(Frankfurt_am_Main)
+40,Maintor WinX,110,50.108528,8.67626,A1,1.0,Full glass curtain wall,Light blue,Prism,Medium,Photo,https://de.wikipedia.org/wiki/Maintor_(Gebäude)
+41,Maintor Panorama,64,50.108,8.6765,U,0.5,,,,Unclear,—,https://de.wikipedia.org/wiki/Maintor_(Gebäude)
+42,Global Tower,109,50.110924,8.673665,B,0.45,Metal-framed glass façade,"Bronze, medium",Prism,High,Text + photo,https://de.wikipedia.org/wiki/Global_Tower
+44,EDEN,98,50.107629,8.653594,C,0.15,Planted balconies (green façade),Matt (plants),Prism,Medium,Text,https://de.wikipedia.org/wiki/Eden_(Hochhaus)
+45,Westend Duo,96,50.117317,8.666512,A2,0.75,Full glass curtain wall,Light,Two towers,Medium,Photo,https://de.wikipedia.org/wiki/WestendDuo
+46,Hochhaus am Park / 160 Park View,96,50.123515,8.66608,A1,1.0,Full glass curtain wall,Light blue,Prism,Medium,Text + photo,https://de.wikipedia.org/wiki/Hochhaus_am_Park
+47,Commerzbank Trading Center,93,50.106421,8.65644,C,0.15,Punched / ribbon façade,Matt,Prism,Low,Photo,https://de.wikipedia.org/wiki/Hafenstraße_51_(Frankfurt_am_Main)
+48,Union Investment,93,50.104248,8.668047,B,0.45,Ribbon windows,"Light, low–medium",Prism,Medium,Photo,https://de.wikipedia.org/wiki/Union_Investment-Hochhaus
+49,MainPlaza,88,50.106181,8.695695,C,0.15,Punched brick façade,Matt,Stepped prism,High,Text + photo,https://de.wikipedia.org/wiki/Main_Plaza
+50,Bürohaus an der Alten Oper,89,50.113758,8.671588,A2,0.75,Full glass curtain wall,Light,Prism,Medium,Photo,https://de.wikipedia.org/wiki/Bürohaus_an_der_Alten_Oper
+51,Rhein-Main-Center,84,50.117166,8.664308,C,0.15,Punched façade,Matt,Prism,Low,Photo,https://de.wikipedia.org/wiki/Rhein-Main-Center
+52,Central Parx (former BHF-Bank tower),82,50.116378,8.668499,B,0.45,Ribbon windows,"Light, low–medium",Prism,Medium,Text + photo,https://de.wikipedia.org/wiki/Central_Parx
+53,Main Forum (IG-Metall-Haus),80,50.103185,8.6662,B,0.45,Mixed by direction,Glass on the east side,Prism,High,Text + photo,https://de.wikipedia.org/wiki/Main_Forum
+54,Chase Bank AG,75,50.11271,8.66836,A1,1.0,Full glass curtain wall,"Dark, reflective",Prism,Medium,Photo,https://de.wikipedia.org/wiki/Taunusanlage_11
+55,K26,75,50.11041,8.674,C,0.15,Punched stone façade,Matt,Prism,High,Text + photo,https://de.wikipedia.org/wiki/K26
+56,Turm-Center,74,50.11965,8.678413,U,0.5,,,,Unclear,—,
+57,Finanz-Informatik-Hochhaus,70,50.115216,8.637119,U,0.5,,,,Unclear,—,
+58,Cielo,70,50.115443,8.633773,U,0.5,,,,Unclear,—,
+59,Hochhaus am Turm,69,50.117494,8.680845,U,0.5,,,,Unclear,—,
+60,Kassenärztliche Vereinigung,69,50.11526,8.649885,U,0.5,,,,Unclear,—,
+61,T8,68,50.111807,8.668889,U,0.5,,,,Unclear,Photo (unclear),https://de.wikipedia.org/wiki/Taunusanlage_8
+62,Romeo & Julia,67,50.115783,8.665241,A2,0.75,Double-skin glass façade,Dark glass,Two towers,Medium,Text + photo,https://de.wikipedia.org/wiki/Bürogebäude_Ulmenstraße_37–39
+63,InterContinental,67,50.104447,8.669065,B,0.45,Ribbon windows,"Dark, medium",Prism,Medium,Text + photo,https://de.wikipedia.org/wiki/InterContinental_Frankfurt
+65,Skylight,63,50.116912,8.682168,C,0.15,Metal panels + windows,Matt,Prism,Medium,Text + photo,https://de.wikipedia.org/wiki/Skylight_(Frankfurt_am_Main)
+66,KfW Palmengartenstraße,61,50.120654,8.655499,U,0.5,,,,Unclear,—,
+69,Praedium,60,50.10773,8.635806,U,0.5,,,,Unclear,—,
+70,FAZ Tower,67,50.108581,8.635733,A2,0.75,Full glass curtain wall,Light,Shifted blocks,Medium,Photo,https://de.wikipedia.org/wiki/FAZ-Tower
+71,"NM-1 (Schweizer Nationalbank, Neue Mainzer Straße 1)",57,50.107584,8.675197,U,0.5,,,,Unclear,—,
+72,The Spin,128,50.1076,8.655,U,0.5,,,Rotated floors (estimate),Low,—,https://de.wikipedia.org/wiki/The_Spin
+73,Europa-Allee-Tower,124,50.109,8.6424,A1,1.0,Full glass curtain wall,"Light, reflective",Prism,Medium,Photo,https://de.wikipedia.org/wiki/Europa-Allee-Tower
+74,City Gate,110,50.128784,8.6918,B,0.45,Metal-framed glass façade,"Blue, medium–high",Prism,High,Text,https://de.wikipedia.org/wiki/City_Gate_(Frankfurt)
+75,Senckenberg-Turm,106,50.116376,8.650847,B,0.45,Glass with vertical bands,Light,Prism,Medium,Text + photo,https://de.wikipedia.org/wiki/Senckenberg-Turm
+76,Leonardo Royal Hotel,100,50.091485,8.690776,C,0.15,Punched façade,Matt,Prism,Medium,Photo,https://de.wikipedia.org/wiki/Leonardo_Royal_Hotel_Frankfurt
+77,Arabella Center,96.3,50.076938,8.627564,C,0.15,Punched façade,Matt,Prism,Medium,Photo,https://de.wikipedia.org/wiki/Arabella_Center
+78,Radisson Blu Hotel,96,50.117347,8.627257,A1,1.0,Full glass curtain wall,"Blue, reflective",Circular disc (curved),Medium,Photo,https://de.wikipedia.org/wiki/Radisson_Blu_Hotel_Frankfurt
+80,Campus Tower,80.3,50.079848,8.627967,C,0.15,Metal panels + windows,"Light metal, matt",Prism,Medium,Text + photo,https://de.wikipedia.org/wiki/Campus_Tower
+81,American Express-Hochhaus,75,50.116351,8.62995,A1,1.0,Full glass curtain wall,Reflective,Prism,Medium,Photo,https://de.wikipedia.org/wiki/American_Express-Hochhaus
+82,St Martin Tower,70,50.116728,8.628496,A2,0.75,Full glass curtain wall,Light,Prism,Medium,Photo,https://de.wikipedia.org/wiki/St_Martin_Tower
+83,Alpha Rotex,68,50.056351,8.589021,U,0.5,,,,Unclear,—,
+84,Ehemalige DB-Hauptverwaltung,65,50.106828,8.639376,U,0.5,,,,Unclear,—,https://de.wikipedia.org/wiki/Ehemalige_Hauptverwaltung_Deutsche_Bahn_AG_(Frankfurt_am_Main)
+85,Taunusturm (residential tower),63,50.110396,8.672934,B,0.45,Stone-framed glass façade,Light,Prism,Medium,Text (complex),https://de.wikipedia.org/wiki/Taunusturm
+86,Main Triangel,60,50.104901,8.703891,A1,1.0,Full glass curtain wall,"Blue, reflective",Sail (curved),Medium,Text + photo,https://de.wikipedia.org/wiki/Main_Triangel

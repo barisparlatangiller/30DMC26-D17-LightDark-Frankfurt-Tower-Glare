@@ -23,6 +23,18 @@ for r in ws.iter_rows(min_row=2, values_only=True):
     cls = r[18]
     rows.append(dict(id=i, name=name, h=hh, lat=lat, lon=lon, cls=cls, w=W[cls], facade=r[12] or '', look=r[14] or '',
                      geom=r[15] or '', conf=r[8], evidence=r[20] or '', src=r[22] or ''))
+# English labels for the web (the inventory itself is in Turkish)
+import os
+tp = os.path.join(os.path.dirname(coords), "translations_en.json")
+if os.path.exists(tp):
+    TR = json.load(open(tp))
+    for row in rows:
+        for k in ("name", "facade", "look", "geom", "conf", "evidence"):
+            v = row[k]
+            if v in TR.get(k, {}):
+                row[k] = TR[k][v]
+            elif v and k != "name" and any(ch in str(v) for ch in "çğıöşüÇĞİÖŞÜ"):
+                raise SystemExit(f"no English label for {k}: {v}")
 with open(out, 'w', newline='') as f:
     wr = csv.DictWriter(f, fieldnames=list(rows[0])); wr.writeheader(); wr.writerows(rows)
 print(len(rows), 'rows')
