@@ -1,0 +1,2 @@
+retry 1 https://overpass-api.de/api/interpreter 502 Server Error: Bad Gateway for url: https://overpass-api.de/api/interpreter
+named OSM buildings: 5,587 (timestamp 2026-07-24T11:04:51Z)

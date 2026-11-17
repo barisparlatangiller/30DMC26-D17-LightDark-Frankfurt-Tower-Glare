@@ -1,0 +1,68 @@
+LoD2 parts: 291,133 · ground z0 85.3–211.2 m a.s.l.
+names from all named OSM buildings: 814 added
+Casters (LoD2 parts ≥ 30 m): 4,009 parts of 1,843 buildings · matched to the OSM 10+ storey list: 1,971
+OSM 10+ storey buildings with a LoD2 part ≥ 30 m: 307 of 344
+Roof planes in reach: 429,824 · on towers: 5,070
+Ground model 1041×1071 cells, 88.8–206.3 m a.s.l.
+{
+ "casters": {
+  "min_h": 30.0,
+  "parts": 4009,
+  "buildings": 1843,
+  "matched_osm_parts": 1971,
+  "osm_total": 344,
+  "osm_with_caster": 307,
+  "osm_without_caster": 37,
+  "osm_without_caster_lod2_hmax_median": 27.8,
+  "h_median": 39.3,
+  "h_max": 261.8,
+  "tallest": [
+   {
+    "name": "Commerzbank Tower",
+    "h": 261.8
+   },
+   {
+    "name": "Messeturm",
+    "h": 256.2
+   },
+   {
+    "name": "Commerzbank Tower",
+    "h": 207.5
+   },
+   {
+    "name": "Westend Tower",
+    "h": 207.1
+   },
+   {
+    "name": "Commerzbank Tower",
+    "h": 200.3
+   },
+   {
+    "name": "Tower 185",
+    "h": 200.0
+   },
+   {
+    "name": "Commerzbank Tower",
+    "h": 199.0
+   },
+   {
+    "name": "Westend Tower",
+    "h": 196.1
+   },
+   {
+    "name": "Westend Tower",
+    "h": 196.1
+   },
+   {
+    "name": "Westend Tower",
+    "h": 196.1
+   }
+  ],
+  "roof_planes": 429824,
+  "receivers": 291133,
+  "ground_range": [
+   88.8,
+   206.3
+  ]
+ }
+}
